@@ -1,7 +1,20 @@
 from collections import deque
+# Intersection base class
+
 class Intersection:
-    def __init__(self, type_):
+    def __init__(self, x_pos, y_pos, type_):
         self.type_ = type_
+        self.x_pos = x_pos
+        self.y_pos = y_pos
+
+class Entrance:
+    def __init__(self):
+        super().__init__(type_="Entrance")
+
+class Exit:
+    def __init__(self):
+        super().__init__(type_="Exit")
+
 
 class Roundabout(Intersection):
     def __init__(self):
