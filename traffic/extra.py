@@ -1,3 +1,4 @@
+import random
 # Extra factors
 class PedestrianCrosswalk:
     def __init__(self):

@@ -1,10 +1,11 @@
 # Base Vehicle class
+from road import Road
 class Vehicle:
     def __init__(self, max_speed, entrance, exit, paths):
         self.max_speed = max_speed
         self.entrance = entrance
         self.exit = exit
-        self.paths = paths
+        self.paths = [road for road in paths if isinstance(road, Road)]  # Ensure paths refer to actual Road objects
 
     def choose_path(self, traffic_counts):
         """Choose the path with the smallest number of cars."""

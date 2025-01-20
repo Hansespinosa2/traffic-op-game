@@ -1,11 +1,15 @@
 from collections import deque
 # Intersection base class
-
 class Intersection:
-    def __init__(self, x_pos, y_pos, type_):
+    def __init__(self, type_, x_pos, y_pos, connected_roads=None):
         self.type_ = type_
         self.x_pos = x_pos
         self.y_pos = y_pos
+        self.connected_roads = connected_roads if connected_roads else []
+
+    def connect_road(self, road):
+        """Connect a road to this intersection."""
+        self.connected_roads.append(road)
 
 class Entrance:
     def __init__(self):
