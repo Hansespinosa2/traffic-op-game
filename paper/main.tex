@@ -1,0 +1,169 @@
+\documentclass[conference]{IEEEtran}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage{graphicx} 
+\hyphenation{op-tical net-works semi-conduc-tor}
+\definecolor{uf_blue}{RGB}{17,27, 150}
+\definecolor{uf_orange}{RGB}{150,100,17}
+
+\begin{document}
+
+\title{University of TRAFFIC: A highly configurable traffic operator model of the University of Florida}
+
+
+\author{\IEEEauthorblockN{\textcolor{uf_blue}{Andres Espinosa}}
+\IEEEauthorblockA{\textcolor{uf_orange}{Industrial and Systems Engineering}\\
+\textcolor{uf_orange}{University of Florida}\\
+\textcolor{uf_orange}{andresespinosa@ufl.edu}}
+}
+
+\maketitle
+
+
+\begin{abstract}
+
+
+\end{abstract}
+
+\IEEEpeerreviewmaketitle
+
+
+
+\section{Introduction}
+
+
+
+
+
+
+\section{Implementation}
+
+\subsection{Data Structures}
+In order to implement the traffic model, objects are split into four different categories:
+\subsubsection{Vehicles}
+Cars, mopeds, and buses are classified as vehicles and therefore share similar properties with each other. 
+Each vehicle has the following: \textit{max\_speed, entrance, exit, paths} parameters. 
+Cars are defined as the standard vehicle and are the parent object for mopeds and buses.
+Each car enters randomly though one of the \textit{entrance} intersections and are assigned to an \textit{exit} intersection.
+In order to determine the route they take, they choose which of their \textit{paths} has the smallest number of cars on it.
+
+In addition to the parameters defined in the \texttt{Car} object, mopeds and buses have slight differences that impact their behavior.
+Mopeds are different than the standard car as they take up less space. 
+In order to simulate how mopeds tend to slowly go around pedestrians 
+instead of fully waiting for them to be out of the crosswalk, 
+mopeds can proceed through roundabouts and stop signs regardless of pedestrian activity.
+Buses are unique as they follow a generally rigid schedule. 
+This means that each bus has only one \textit{path} to select from and an additional \textit{entrance\_time}.
+Both buses and mopeds also have different roundabout behavior as mentioned in the next section
+\subsubsection{Intersections}
+Intersections are defined as any node where more than two sections of road meet.
+Roundabouts, stop signs, and traffic lights are defined as the possible intersection types. 
+Each intersection behaves significantly differently and impacts traffic accordingly.
+
+Roundabouts are full circles with an entrance and exit on each end that intersects a road. 
+When a car enters a roundabout, it occupies 45 degrees of space on the circle and travels at 30 degrees per second until it has exited on its desired path.
+A car will enter a roundabout if it has a free 90 degree section to enter.
+A moped will enter a roundabout if it has a free 60 degree section to enter.
+A bus will enter a roundabout if it has a free 120 degree section to enter.
+
+Stop signs are intersections where each car must slow down to 0 speed before entering. 
+Cars exit stop signs in a FIFO (First-in-first-out) queue.
+
+Traffic lights are a complex intersection type defined by how they choose which cars can flow freely past the node and which must stop.
+In order to model different traffic light behaviors, three sub-types are created:
+\begin{itemize}
+    \item \textbf{Timer}: Parameterized by $\tau$, the traffic light switches from green to red every $\tau$ seconds.
+    \item \textbf{Sensor}: Parametrized by $K$, the traffic light switches to green if more than $K$ cars are waiting at any given time.
+    \item \textbf{Sensor-Timer}: Parametrized by $\tau, K$, the traffic light switches to green if more than $K$ cars are waiting at any given time or $\tau$ time has passed.   
+\end{itemize}
+\subsubsection{Roads}
+Roads are defined as the one-way arcs between different intersections.
+Each road has a length $l$.
+\subsubsection{Extra}
+Some extra factors that impact traffic that are implemented in this model are pedestrian crosswalks and parking lots.
+
+Pedestrian crosswalks are entrances of an intersection that are randomly blocked.
+Cars and buses must wait for the pedestrians to exit the crosswalk before they must enter the intersection.
+Mopeds can still enter intersections if a pedestrian crosswalk is blocked but must slow down to 3 mph.
+
+Parking lots are nodes along different arcs where there is a 5\% chance that a car entering the node does not exit (the car parks).
+
+
+\section{Results}
+
+
+\section{Conclusion and Future Work}
+
+
+\begin{thebibliography}{1}
+
+\bibitem{IEEEhowto:sheerazi}
+A. Sheerazi, "PLANTTRAITS2024 -- A Kaggle competition," Medium, [Online]. Available: \url{https://medium.com/@adil.she/planttraits2024-a-kaggle-competition-8c6731003356}
+
+\bibitem{IEEEhowto:awsaf}
+Awsaf, AyushiSharma, HCL-Jevster, inversion, Martin Görner, Teja Kattenborn. (2024). PlantTraits2024 - FGVC11. Kaggle. \url{https://kaggle.com/competitions/planttraits2024}
+
+\bibitem{IEEEhowto:wolf}
+Wolf, S., Mahecha, M.D., Sabatini, F.M. et al. Citizen science plant observations encode global trait patterns. Nat Ecol Evol 6, 1850–1859 (2022). \url{https://doi.org/10.1038/s41559-022-01904-x}
+
+\bibitem{IEEEhowto:moles}
+Moles, A.T., Xirocostas, Z.A. Statistical power from the people. Nat Ecol Evol 6, 1802–1803 (2022). \url{https://doi.org/10.1038/s41559-022-01902-z}
+
+\bibitem{IEEEhowto:schiller}
+Schiller, C., Schmidtlein, S., Boonman, C. et al. Deep learning and citizen science enable automated plant trait predictions from photographs. Sci Rep 11, 16395 (2021). \url{https://doi.org/10.1038/s41598-021-95616-0}
+
+\bibitem{IEEEhowto:tan}
+Tan, M., Le, Q. V. (2021, June 23). EFFICIENTNETV2: Smaller models and faster training. arXiv.org. \url{https://arxiv.org/abs/2104.00298}
+
+\bibitem{IEEEhowto:kaiming}
+He, Kaiming, et al. "Identity mappings in deep residual networks." Computer Vision–ECCV 2016: 14th European Conference, Amsterdam, The Netherlands.
+\url{https://arxiv.org/abs/1603.05027}
+
+\bibitem{IEEEhowto:krizhevsky}
+A. Krizhevsky, I. Sutskever, and G. E. Hinton, “ImageNet Classification with Deep Convolutional Neural Networks,” Communications of the ACM, vol. 60, no. 6, pp. 84–90, May 2012, doi: \url{https://doi.org/10.1145/3065386.}
+‌
+\bibitem{IEEEhowto:rui314}
+rui314, "Kaggle Notebook Tabular Data Deep Learning" Kaggle. \url{https://www.kaggle.com/code/rui314/planttraits-resnet18}
+
+\bibitem{IEEEhowto:michalinahulak}
+Michalinahulak, "Tabular Data Deep Learning," Kaggle. \url{https://www.kaggle.com/code/michalinahulak/tabular-data-deep-learning/notebook}
+
+\bibitem{IEEEhowto:richolson_multitarget}
+Richolson, "Tabular ImageNet Multi-Target Regression," Kaggle. \url{https://www.kaggle.com/code/richolson/tabular-imagenet-multi-target-regression/notebook}
+
+\bibitem{IEEEhowto:markwijkhuizen}
+Mark Wijkhuizen, "PlantTraits2024 EDA and Training Pub," Kaggle. \url{https://www.kaggle.com/code/markwijkhuizen/planttraits2024-eda-training-pub}
+
+\bibitem{IEEEhowto:hdjojo}
+Hdjojo, "Modified PlantTraits2024 EDA and  Training," Kaggle. \url{https://www.kaggle.com/code/hdjojo/modified-planttraits2024-eda-training/notebook}
+
+\bibitem{IEEEhowto:richolson_xgboost}
+Richolson, "ImageNet Tabular XGBoost," Kaggle. \url{https://www.kaggle.com/code/richolson/imagenet-tabular-xgboost/notebook}
+
+\bibitem{IEEEhowto:howard}
+A. Howard et al., “Searching for MobileNetV3,” arXiv.org, 2019. 
+\url{https://arxiv.org/abs/1905.02244}
+
+\bibitem{IEEEhowto:he}
+[3]K. He, X. Zhang, S. Ren, and J. Sun, “Deep Residual Learning for Image Recognition,” 2016. Available: \url{https://openaccess.thecvf.com/content_cvpr_2016/papers/He_Deep_Residual_Learning_CVPR_2016_paper.pdf}
+
+\bibitem{IEEEhowto:reis}
+D. Reis, J. Kupec, J. Hong, and A. Daoudi, “Real-Time Flying Object Detection with YOLOv8.” Accessed: Apr. 29, 2024. [Online]. Available: \url{https://arxiv.org/pdf/2305.09972}
+
+\bibitem{IEEEhowto:wang}
+C.-Y. Wang, H.-Y. Liao, Y.-H. Wu, P.-Y. Chen, J.-W. Hsieh, and I-Hau. Yeh, “CSPNet: A New Backbone that can Enhance Learning Capability of CNN.” Available: \url{https://openaccess.thecvf.com/content_CVPRW_2020/papers/w28/Wang_CSPNet_A_New_Backbone_That_Can_Enhance_Learning_Capability_of_CVPRW_2020_paper.pdf}
+
+\bibitem{IEEEhowto:chen}
+T. Chen and C. Guestrin, “XGBoost: A Scalable Tree Boosting System.” Accessed: Apr. 29, 2024. [Online]. Available: \url{https://arxiv.org/pdf/1603.02754}
+
+
+\end{thebibliography}
+
+
+
+
+% that's all folks
+\end{document}
+
+
+
