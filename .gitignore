@@ -169,3 +169,44 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# LaTeX
+*.aux
+*.lof
+*.log
+*.lot
+*.fls
+*.out
+*.toc
+*.fmt
+*.fot
+*.cb
+*.cb2
+*.lb
+
+# Intermediate documents
+*.dvi
+*.xdv
+
+# Generated PDFs
+*.pdf
+
+# Bibliography
+*.bbl
+*.bcf
+*.blg
+*.run.xml
+
+# Build tool logs
+*.fdb_latexmk
+*.synctex
+*.synctex(busy)
+*.synctex.gz
+*.synctex.gz(busy)
+*.pdfsync
+
+# Editor-specific files
+*~ 
+*.swp
+*.swo
+*.tmp
